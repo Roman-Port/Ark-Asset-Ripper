@@ -1,0 +1,1 @@
+.\umodel.exe -out=%1 -notgacomp -export %2

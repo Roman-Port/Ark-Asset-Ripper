@@ -13,6 +13,7 @@ namespace ArkUassetReader.Entities.Properties
 
         //=== VALUES ===
         public string enumValue; //Use ONLY if the above boolean is false
+        public string enumType; //Use ONLY if the above boolean is false
         public byte byteValue; //Use ONLY if the above boolean is true
 
         public ByteProperty(IOMemoryStream ms, UAssetFile f, bool isArray) : base(ms, f, isArray)
@@ -45,7 +46,15 @@ namespace ArkUassetReader.Entities.Properties
                 //Int, usually 0
                 //Enum value
                 //Int, usually 0
-                ms.position += 16;
+                enumType = ms.ReadNameTableEntry(f);
+                ms.position += 4;
+                enumValue = ms.ReadNameTableEntry(f);
+                ms.position += 4;
+            }
+            else if(length == 0)
+            {
+                //Just skip.
+                ms.position += 4;
             }
             else
             {

@@ -15,7 +15,7 @@ namespace ArkUassetReader.Entities.Properties
 
             this.name_string = ms.ReadNameTableEntry(f);
 
-            ms.position += length - 4;
+            ms.position += 4;
         }
     }
 }

@@ -20,8 +20,15 @@ namespace ArkUassetReader.HighLevelEntities
         public float babyAgeSpeed { get; set; }
         [ArkConvertFlag("ExtraBabyAgeSpeedMultiplier", PropertyTypeIndex.FloatProperty, false, 1f)]
         public float extraBabyAgeSpeedMultiplier { get; set; }
-        [ArkConvertFlag("useBabyGestation", PropertyTypeIndex.BoolProperty, false, false)]
+        [ArkConvertFlag("bUseBabyGestation", PropertyTypeIndex.BoolProperty, false, false)]
         public bool useBabyGestation { get; set; }
+
+        //New in v2
+        public ArkDinoEntryStatusComponent statusComponent;
+
+        //New in v3
+        public List<ArkDinoFood> adultFoods;
+        public List<ArkDinoFood> childFoods;
 
         public string classname;
         public string blueprintPath;
@@ -35,6 +42,28 @@ namespace ArkUassetReader.HighLevelEntities
         public Dictionary<DinoStatTypeIndex, float> increasePerTamedLevel;
         public Dictionary<DinoStatTypeIndex, float> additiveTamingBonus; //Taming effectiveness
         public Dictionary<DinoStatTypeIndex, float> multiplicativeTamingBonus; //Taming effectiveness
+    }
+
+    public class ArkDinoEntryStatusComponent
+    {
+        [ArkConvertFlag("BaseFoodConsumptionRate", PropertyTypeIndex.FloatProperty, false, -0.01f)]
+        public float baseFoodConsumptionRate { get; set; }
+        [ArkConvertFlag("BabyDinoConsumingFoodRateMultiplier", PropertyTypeIndex.FloatProperty, false, 25.5f)]
+        public float babyDinoConsumingFoodRateMultiplier { get; set; }
+        [ArkConvertFlag("ExtraBabyDinoConsumingFoodRateMultiplier", PropertyTypeIndex.FloatProperty, false, 20.0f)]
+        public float extraBabyDinoConsumingFoodRateMultiplier { get; set; }
+        [ArkConvertFlag("FoodConsumptionMultiplier", PropertyTypeIndex.FloatProperty, false, 1f)]
+        public float foodConsumptionMultiplier { get; set; }
+    }
+
+    public class ArkDinoFood
+    {
+        public string classname;
+        public float foodEffectivenessMultiplier;
+        public float affinityOverride;
+        public float affinityEffectivenessMultiplier;
+        public int foodCategory;
+        public float priority;
     }
 
     /*public class ArkDinoStatsEntry

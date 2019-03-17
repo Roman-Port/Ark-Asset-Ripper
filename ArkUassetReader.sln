@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArkUassetReader", "ArkUassetReader\ArkUassetReader.csproj", "{92169615-E172-4C82-BD79-C8D8E4A50A59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArkUassetReader", "ArkUassetReader\ArkUassetReader.csproj", "{92169615-E172-4C82-BD79-C8D8E4A50A59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArkMapper", "ArkMapper\ArkMapper.csproj", "{12D52DF0-BE90-479A-80A2-D4D5EE202678}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{92169615-E172-4C82-BD79-C8D8E4A50A59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92169615-E172-4C82-BD79-C8D8E4A50A59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92169615-E172-4C82-BD79-C8D8E4A50A59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12D52DF0-BE90-479A-80A2-D4D5EE202678}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12D52DF0-BE90-479A-80A2-D4D5EE202678}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12D52DF0-BE90-479A-80A2-D4D5EE202678}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12D52DF0-BE90-479A-80A2-D4D5EE202678}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

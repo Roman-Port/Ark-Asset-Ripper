@@ -10,7 +10,7 @@ namespace ArkUassetReader
     {
         public bool is_little_endian = true;
 
-        public MemoryStream ms = new MemoryStream();
+        public Stream ms;
 
         public long position
         {
@@ -24,7 +24,7 @@ namespace ArkUassetReader
             }
         }
 
-        public IOMemoryStream(MemoryStream ms, bool is_little_endian)
+        public IOMemoryStream(Stream ms, bool is_little_endian)
         {
             this.ms = ms;
             this.is_little_endian = is_little_endian;
@@ -42,6 +42,36 @@ namespace ArkUassetReader
             if (index < 0)
                 return "NOT FOUND";
             return f.name_table[index];
+        }
+
+        public bool TryReadNameTableEntry(UAssetFile f, out string name)
+        {
+            int index = ReadInt();
+            name = null;
+            if (index < 0 || index > f.name_table.Length)
+                return false;
+            name = f.name_table[index];
+            return true;
+        }
+
+        public void DebugNameTableEntry(UAssetFile f)
+        {
+            Console.WriteLine(DebugNameTableEntryRet(f));
+        }
+
+        public string DebugNameTableEntryRet(UAssetFile f)
+        {
+            long pos = position;
+            int value = ReadInt();
+            position = pos;
+            try
+            {
+                return (ReadNameTableEntry(f) + $" ({value})");
+            }
+            catch
+            {
+                return (value.ToString());
+            }
         }
 
         public short ReadShort()
@@ -94,7 +124,7 @@ namespace ArkUassetReader
             return ReadByte() != 0x00;
         }
 
-        public string ReadUEString(int maxLen = int.MaxValue)
+        public string ReadUEString(int maxLen = 10485760)
         {
             //Read length
             int length = this.ReadInt();

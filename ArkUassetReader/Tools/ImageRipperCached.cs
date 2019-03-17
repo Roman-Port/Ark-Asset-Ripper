@@ -57,6 +57,17 @@ namespace ArkUassetReader.Tools
             return asset;
         }
 
+        public static void ReimportQueue(string path)
+        {
+            itemMap = JsonConvert.DeserializeObject<Dictionary<string, ArkImageAsset>>(File.ReadAllText(path + "ids.map"));
+            usedIds = new List<string>();
+            foreach (string k in itemMap.Keys)
+            {
+                usedIds.Add(k);
+                itemMap[k].converted = true;
+            }
+        }
+
         /// <summary>
         /// Process the queue and generate files.
         /// </summary>
@@ -68,11 +79,16 @@ namespace ArkUassetReader.Tools
                 {
                     DateTime start = DateTime.UtcNow;
                     var item = itemMap.ElementAt(i);
-                    string path = item.Key;
-                    ArkImageAsset asset = item.Value;
-                    asset.converted = true;
-                    Program.OpenUAssetImageAndConvert(path, output + asset.id + ".png", output + asset.id_thumb + ".png");
-                    GoodWrite($"Converted image in {Math.Round((DateTime.UtcNow - start).TotalMilliseconds, 2)} ms.");
+                    if (!File.Exists(output +item.Value.id + ".png"))
+                    {
+                        string path = item.Key;
+                        ArkImageAsset asset = item.Value;
+                        asset.converted = true;
+                        Program.OpenUAssetImageAndConvert(path, output + asset.id + ".png", output + asset.id_thumb + ".png");
+                        GoodWrite($"Converted image in {Math.Round((DateTime.UtcNow - start).TotalMilliseconds, 2)} ms.");
+                    }
+                    
+                    
                 } catch (Exception ex)
                 {
                     WarningWrite($"Warning: Failed to convert image asset; {ex.Message}");

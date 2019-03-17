@@ -49,20 +49,33 @@ namespace ArkUassetReader.HighLevelEntities
         [ArkConvertFlag("MaxItemQuantity", Entities.PropertyTypeIndex.IntProperty, false, 0)]
         public int maxItemQuantity { get; set; }
 
-        //CONSUMABLES
-        [ArkConvertFlag("Ingredient_WeightIncreasePerQuantity", Entities.PropertyTypeIndex.FloatProperty, false, 0)]
-        public float increasePerQuanity_Weight { get; set; }
+        //CONSUMABLEs
+        //UseItemAddCharacterStatusValues
+        public Dictionary<string, ArkItemEntry_ConsumableAddStatusValue> addStatusValues = new Dictionary<string, ArkItemEntry_ConsumableAddStatusValue>();
+    }
 
-        [ArkConvertFlag("Ingredient_FoodIncreasePerQuantity", Entities.PropertyTypeIndex.FloatProperty, false, 0)]
-        public float increasePerQuanity_Food { get; set; }
+    public class ArkItemEntry_ConsumableAddStatusValue
+    {
+        [ArkConvertFlag("BaseAmountToAdd", Entities.PropertyTypeIndex.FloatProperty, true, null)] //Required
+        public float baseAmountToAdd { get; set; }
+        [ArkConvertFlag("bPercentOfMaxStatusValue", Entities.PropertyTypeIndex.BoolProperty, true, false)] //Required
+        public bool percentOfMaxStatusValue { get; set; }
+        [ArkConvertFlag("bPercentOfCurrentStatusValue", Entities.PropertyTypeIndex.BoolProperty, true, false)] //Required
+        public bool percentOfCurrentStatusValue { get; set; }
+        [ArkConvertFlag("bUseItemQuality", Entities.PropertyTypeIndex.BoolProperty, true, false)] //Required
+        public bool useItemQuality { get; set; }
+        [ArkConvertFlag("bAddOverTime", Entities.PropertyTypeIndex.BoolProperty, true, false)] //Required
+        public bool addOverTime { get; set; }
+        [ArkConvertFlag("bSetValue", Entities.PropertyTypeIndex.BoolProperty, true, false)] //Required
+        public bool setValue { get; set; }
+        [ArkConvertFlag("bSetAdditionalValue", Entities.PropertyTypeIndex.BoolProperty, true, false)] //Required
+        public bool setAdditionalValue { get; set; }
+        [ArkConvertFlag("AddOverTimeSpeed", Entities.PropertyTypeIndex.FloatProperty, true, false)] //Required
+        public float addOverTimeSpeed { get; set; }
+        [ArkConvertFlag("ItemQualityAddValueMultiplier", Entities.PropertyTypeIndex.FloatProperty, true, false)] //Required
+        public float itemQualityAddValueMultiplier { get; set; }
 
-        [ArkConvertFlag("Ingredient_HealthIncreasePerQuantity", Entities.PropertyTypeIndex.FloatProperty, false, 0)]
-        public float increasePerQuanity_Health { get; set; }
+        public string statusValueType; //Enum
 
-        [ArkConvertFlag("Ingredient_WaterIncreasePerQuantity", Entities.PropertyTypeIndex.FloatProperty, false, 0)]
-        public float increasePerQuanity_Water { get; set; }
-
-        [ArkConvertFlag("Ingredient_StaminaIncreasePerQuantity", Entities.PropertyTypeIndex.FloatProperty, false, 0)]
-        public float increasePerQuanity_Stamina { get; set; }
     }
 }

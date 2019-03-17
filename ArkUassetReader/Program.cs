@@ -16,7 +16,7 @@ namespace ArkUassetReader
     /// <summary>
     /// Reads UAssets from the Ark Dev Kit to automate data extraction.
     /// </summary>
-    class Program
+    public class Program
     {
         //Config
 
@@ -28,6 +28,7 @@ namespace ArkUassetReader
         public const string GAME_MODE_PATH = @"E:\TempFiles\ark\TestGameMode.uasset";
         public const string CORE_MEDIA_PRIMAL_GAME_DATA_PATH = @"E:\TempFiles\ark\COREMEDIA_PrimalGameData_BP.uasset";
         public const string BASE_PRIMAL_GAME_DATAA_PATH = @"E:\TempFiles\ark\BASE_PrimalGameData_BP.uasset";
+        public const string PRIMAL_GAME_DATA_PATH = @"E:\TempFiles\ark\PrimalGameData_BP.uasset";
 
         //Vars
         public static Random rand = new Random();
@@ -36,8 +37,12 @@ namespace ArkUassetReader
 
         static void Main(string[] args)
         {
-            //UAssetFile.debug_mode_on = true;
-            //UAssetFile f = UAssetFile.OpenFromFile(, ARK_GAME_DIR);
+            //Tests();
+            // UAssetFile.debug_mode_on = true;
+            //TestTwo();
+
+
+            //Tools.ImageRipperCached.ReimportQueue(OUTPUT_PATH + "img\\");
 
             //Get world
             ArkWorldSettings world = new ArkWorldSettings();
@@ -45,9 +50,9 @@ namespace ArkUassetReader
             File.WriteAllText(OUTPUT_PATH + "world.json", JsonConvert.SerializeObject(world));
 
             //Run task
-            //List<ArkItemEntry> items = Tasks.CreateItemListTask.DoTask(BASE_PRIMAL_GAME_DATAA_PATH);
+            //List<ArkItemEntry> items = Tasks.CreateItemListTask.DoTask();
             //File.WriteAllText(OUTPUT_PATH + "items.json", JsonConvert.SerializeObject(items));
-            List<ArkDinoEntry> dinos = Tasks.CreateDinoListTask.CreateDinoList(CORE_MEDIA_PRIMAL_GAME_DATA_PATH);
+            List<ArkDinoEntry> dinos = Tasks.CreateDinoListTask.CreateDinoList(PRIMAL_GAME_DATA_PATH);
             File.WriteAllText(OUTPUT_PATH + "dinos.json", JsonConvert.SerializeObject(dinos));
 
             //Process queue
@@ -78,6 +83,67 @@ namespace ArkUassetReader
             Console.WriteLine("\n\n");
             //TestCalculateRex();
             Console.ReadLine();*/
+        }
+
+        static void TestTwo()
+        {
+            UAssetFile f = UAssetFile.OpenFromFile(@"E:\Programs\ARKEditor\Projects\ShooterGame\Content\Aberration\Dinos\RockDrake\DinoSettings_Carnivore_RockDrake_Child.uasset", ARK_GAME_DIR);
+            //UAssetFile f = UAssetFile.OpenFromFile(@"E:\Programs\ARKEditor\Projects\ShooterGame\Content\Aberration\Dinos\RockDrake\RockDrake_Character_BP.uasset", ARK_GAME_DIR);
+            List<UProperty> props = f.GetBlueprintProperties(workDown:true, readStructs:true);
+
+            Console.ReadLine();
+        }
+
+        static void Tests()
+        {
+            //UAssetFile.debug_mode_on = true;
+            //UAssetFile f = UAssetFile.OpenFromFile(@"E:\Programs\ARKEditor\Projects\ShooterGame\Content\Aberration\Dinos\RockDrake\DinoSettings_Carnivore_RockDrake_Child.uasset", ARK_GAME_DIR);
+            UAssetFile f = UAssetFile.OpenFromFile(@"E:\Programs\ARKEditor\Projects\ShooterGame\Content\Aberration\CoreBlueprints\Resources\PrimalItemConsumable_NamelessVenom.uasset", ARK_GAME_DIR);
+            var props = f.GetBlueprintProperties(workDown:false, readStructs:true);
+            foreach(var p in props)
+            {
+                if (p.type == "StrProperty")
+                {
+                    var pp = (StrProperty)p;
+                    Console.WriteLine(p.name + " - " + p.type + " - " + pp.data);
+                }
+                else if (p.type == "ArrayProperty")
+                {
+                    var pp = (ArrayProperty)p;
+                    Console.WriteLine(p.name + " - " + p.type + " - " + pp.arrayType);
+                    if(pp.arrayType == "StructProperty")
+                    {
+                        foreach(var ppi in pp.items)
+                        {
+                            Console.WriteLine($"\tItem {ppi.name}:");
+                            StructProperty ppip = (StructProperty)ppi;
+                            foreach(var ppipp in ppip.props)
+                            {
+                                Console.WriteLine($"\t\t{ppipp.name} / {ppipp.type}");
+                                if(ppipp.name == "StatusValueType")
+                                {
+                                    //Console.ReadLine();
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (p.type == "ByteProperty")
+                {
+                    var pp = (ByteProperty)p;
+                    if(pp.isNormalByte)
+                        Console.WriteLine(p.name + " - " + p.type);
+                    else
+                        Console.WriteLine(p.name + " - " + p.type+" - "+pp.enumValue);
+                }
+                else
+                {
+                    Console.WriteLine(p.name + " - " + p.type);
+                }
+                
+
+            }
+            Console.ReadLine();
         }
 
         public delegate bool SeekFilesCheck(string p);
@@ -228,7 +294,7 @@ namespace ArkUassetReader
                     try
                     {
                         ObjectProperty prop = (ObjectProperty)a;
-                        var r = f.GetReferencedObjectById(prop.objectIndex);
+                        var r = prop.source.GetReferencedObjectById(prop.objectIndex);
 
                         //If the index is not - still, go down to the next level
                         string className = r.name;

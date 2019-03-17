@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Folder Include="Entities\Array\" />
-    <Folder Include="Entities\Properties\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 
